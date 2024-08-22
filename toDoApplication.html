@@ -1,0 +1,163 @@
+<template>
+    <div class="slds-grid slds-gutters">
+        <!-- Add New Task Section -->
+        <div class="slds-col">
+            <lightning-card title="Add New Task" icon-name="custom:custom14">
+                <div class="slds-var-p-around_small">
+                    <lightning-input
+                        type="text"
+                        label="Enter Task"
+                        placeholder="Enter Task Name"
+                        required="true"
+                        message-when-value-missing="Kindly Enter Task Name"
+                        name="taskname"
+                        value={taskname}
+                        onchange={changeHandler}
+                        class="taskname">
+                    </lightning-input>
+                    <lightning-input
+                        type="date"
+                        label="Set End Date"
+                        field-level-help="Default end Date is Today's date"
+                        name="taskdate"
+                        value={taskdate}
+                        onchange={changeHandler}>
+                    </lightning-input>
+                </div>
+                <div class="slds-var-p-around_small">
+                    <lightning-button
+                        variant="brand"
+                        label="Reset"
+                        onclick={resetHandler}
+                        class="slds-var-p-around_small">
+                    </lightning-button>
+                    <lightning-button
+                        variant="brand"
+                        label="Add Task"
+                        onclick={addTaskHandler}
+                        class="slds-var-p-around_small">
+                    </lightning-button>
+                </div>
+            </lightning-card>
+        </div>
+
+        <!-- To Do List Section -->
+        <div class="slds-col">
+            <lightning-card title="To Do List" icon-name="custom:custom14">
+                <div class="slds-var-p-around_small">
+                    <template for:each={incompletetask} for:item="currtask" for:index="index">
+                        <div key={currtask.taskname} class="slds-box slds-theme_shade incompletebg">
+                            <div class="slds-grid slds-wrap">
+                                <div class="slds-col slds-size_8-of-12">
+                                    <p class="formattask">{currtask.taskname}</p>
+                                    <p>
+                                        <lightning-formatted-date-time 
+                                            value={currtask.taskdate} 
+                                            year="2-digit" 
+                                            month="short" 
+                                            day="2-digit" 
+                                            weekday="long">
+                                        </lightning-formatted-date-time>
+                                    </p>
+                                </div>
+                                <div class="slds-col slds-size_4-of-12">
+                                    <lightning-button-icon 
+                                        icon-name="utility:delete"    
+                                        alternative-text="Delete"   
+                                        class="slds-m-left_xx-small"
+                                        title="Delete"
+                                        onclick={removalHandler}
+                                        name={index}>
+                                    </lightning-button-icon>
+                                <!--<lightning-button-icon 
+                                        icon-name="utility:check"    
+                                        alternative-text="Complete"   
+                                        class="slds-m-left_xx-small" 
+                                        title="Complete"
+                                        onclick={completetaskHandler}
+                                        name={index}>
+                                    </lightning-button-icon>-->
+                                    <!-- Start Button -->
+                               <lightning-button-icon 
+                                        icon-name="utility:forward"    
+                                        alternative-text="Start"   
+                                        class="slds-m-left_xx-small" 
+                                        title="Start"
+                                        onclick={startTaskHandler}
+                                        name={index}>
+                                    </lightning-button-icon>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </lightning-card>
+        </div>
+
+        <!-- In Progress Section -->
+        <div class="slds-col">
+            <lightning-card title="In Progress" icon-name="custom:custom14">
+                <div class="slds-var-p-around_small">
+                    <template for:each={inprogresstask} for:item="currtask">
+                        <div key={currtask.taskname} class="slds-box slds-theme_shade inprogressbg">
+                            <p class="formattask">{currtask.taskname}</p>
+                            <p>
+                                <lightning-formatted-date-time 
+                                    value={currtask.taskdate} 
+                                    year="2-digit" 
+                                    month="short" 
+                                    day="2-digit" 
+                                    weekday="long">
+                                </lightning-formatted-date-time>
+                            </p>
+                              <div class="slds-col slds-size_4-of-12">
+                                    <!-- Complete Button -->
+                                    <lightning-button-icon 
+                                        icon-name="utility:check"    
+                                        alternative-text="Complete"   
+                                        class="slds-m-left_xx-small" 
+                                        title="Complete"
+                                        onclick={completeTaskFromInProgressHandler}
+                                        name={index}>
+                                    </lightning-button-icon>
+                                </div>
+                         </div>
+                    </template>
+                </div>
+            </lightning-card>
+        </div>
+
+        <!-- Completed Items Section -->
+        <div class="slds-col">
+            <lightning-card title="Completed Items" icon-name="custom:custom14">
+                <div class="slds-var-p-around_small" ondragover={allowDrop} ondrop={dropElementHandler}>
+                    <template for:each={completetask} for:item="currtask">
+                        <div key={currtask.taskname} class="slds-box slds-theme_shade completebg">
+                            <p class="formattask">{currtask.taskname}</p>
+                            <p>
+                                <lightning-formatted-date-time 
+                                    value={currtask.taskdate} 
+                                    year="2-digit" 
+                                    month="short" 
+                                    day="2-digit" 
+                                    weekday="long">
+                                </lightning-formatted-date-time>
+                            </p>
+                            <div class="slds-col slds-size_4-of-12">
+                                <!-- Reopen Button -->
+                                <lightning-button-icon 
+                                    icon-name="utility:undo"    
+                                    alternative-text="Reopen"   
+                                    class="slds-m-left_xx-small" 
+                                    title="Reopen"
+                                    onclick={reopenTaskHandler}
+                                    name={index}>
+                                </lightning-button-icon>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </lightning-card>
+        </div>
+    </div>
+</template>

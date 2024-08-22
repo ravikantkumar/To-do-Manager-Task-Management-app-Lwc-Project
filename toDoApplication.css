@@ -1,0 +1,12 @@
+.incompletebg{
+    background-color: red;
+}
+.completebg{
+    background-color: green;
+}
+.inprogressbg{
+     background-color: yellow;
+}
+.formattaskname{
+    font-size: large;
+}
